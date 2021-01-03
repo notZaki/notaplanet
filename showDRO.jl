@@ -151,7 +151,7 @@ fits = mat["fits"];
 let
 	gr(size=(figwidth,figheight), html_output_format=:png)
 	conc = ct[x,y,:]
-	p = scatter(t, conc; ylabel = "Time [min]", xlabel = "Concentration [mM]", label = nothing, palette = :seaborn_colorblind, figopts...)
+	p = scatter(t, conc; xlabel = "Time [min]", ylabel = "Concentration [mM]", label = nothing, palette = :seaborn_colorblind, figopts...)
 	
 	ylim = 1.1 .* extrema(conc)
 	
@@ -198,7 +198,7 @@ end
 # ╟─55f56d58-4d64-11eb-3c16-f56d0e192f6c
 # ╟─e395e576-4d63-11eb-1ca4-556bafe55491
 # ╟─2f2e95ca-4d76-11eb-2d2a-574df5f6aeb5
-# ╟─838f8914-4d74-11eb-07f7-c1c1745ef934
+# ╠═838f8914-4d74-11eb-07f7-c1c1745ef934
 # ╟─5b88db86-4d73-11eb-23c0-6d397ef8d8ed
 # ╟─58719420-4d74-11eb-1203-d904b52db65e
 # ╟─97f67b12-4d5e-11eb-332d-d9521cadce9d
