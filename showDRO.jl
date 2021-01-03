@@ -17,7 +17,10 @@ end
 using Perfusion
 
 # ╔═╡ c5497f8e-4d4e-11eb-3087-29485fb0bee1
-using MAT, Plots, PlutoUI, Statistics
+begin
+	using MAT, Plots, PlutoUI, Statistics
+	gr(size=(600,400), html_output_format=:png)
+end
 
 # ╔═╡ 55f56d58-4d64-11eb-3c16-f56d0e192f6c
 md"""
