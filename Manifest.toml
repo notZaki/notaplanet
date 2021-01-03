@@ -524,8 +524,8 @@ version = "1.0.15"
 
 [[Perfusion]]
 deps = ["CancerImagingArchive", "DICOM", "LinearAlgebra", "LsqFit", "NIfTI", "NamedTupleTools", "NumericalIntegration", "SpecialFunctions", "Statistics"]
-git-tree-sha1 = "0a7e9f354833cb73a92afd25aa547c9448abd75e"
-repo-rev = "citedocs"
+git-tree-sha1 = "faa265b8fa030a3d959838c5d5a4aa9936999645"
+repo-rev = "master"
 repo-url = "https://github.com/notZaki/Perfusion.jl.git"
 uuid = "f2c4f5d8-8176-4777-9c43-b2c4f12bfc82"
 version = "0.2.0"
