@@ -14,16 +14,18 @@ macro bind(def, element)
 end
 
 # ╔═╡ 6d6b6472-4d5e-11eb-0e08-b3c26ad37f08
-using Perfusion
-
-# ╔═╡ c5497f8e-4d4e-11eb-3087-29485fb0bee1
-using MAT, Plots, PlutoUI, Statistics
+begin
+	#using Pkg
+	#Pkg.activate(".")
+	using Perfusion
+	using MAT, Plots, PlutoUI, Statistics
+end
 
 # ╔═╡ 38393f20-4d54-11eb-0248-e3937edde1f7
 md"""
 # Fits on Digital Reference Object (DRO)
 
-This document contains three figures.
+This document contains four figures.
 
 1. Parameter maps for a model chosen from the list below.
   + If multiple models are chosen, then the first selected model will be shown.
@@ -34,6 +36,8 @@ This document contains three figures.
   + The sliders will move the crosshairs
 
 3. The residual sum of squares (static figure)
+
+4. Map showing which model has lowest residual sum of squares
 
 ### Choose which models to show
 
@@ -115,10 +119,10 @@ allmodels = collect(keys(mat["fits"]))
 let
 	gr(size=(figwidth,figheight), html_output_format=:png)
 	p = []
-	cmax = 0.0005
+	cmax = 0.02
 	for model in allmodels
-		map = mat["rss"][model]
-		push!(p, heatmap(map; yflip = true, clim=(0, cmax), title = model))
+		map = sqrt.(mat["rss"][model])
+		push!(p, heatmap(map; yflip = true, clim=(0.01, cmax), title = model))
 	end
 	plot(p...)
 end
@@ -198,7 +202,7 @@ end
 # ╟─55f56d58-4d64-11eb-3c16-f56d0e192f6c
 # ╟─e395e576-4d63-11eb-1ca4-556bafe55491
 # ╟─2f2e95ca-4d76-11eb-2d2a-574df5f6aeb5
-# ╠═838f8914-4d74-11eb-07f7-c1c1745ef934
+# ╟─838f8914-4d74-11eb-07f7-c1c1745ef934
 # ╟─5b88db86-4d73-11eb-23c0-6d397ef8d8ed
 # ╟─58719420-4d74-11eb-1203-d904b52db65e
 # ╟─97f67b12-4d5e-11eb-332d-d9521cadce9d
@@ -213,4 +217,3 @@ end
 # ╟─1572b524-4d52-11eb-22a7-09978ae54280
 # ╟─ba0a75ec-4d4e-11eb-383f-0bd33c2f5c5e
 # ╟─6d6b6472-4d5e-11eb-0e08-b3c26ad37f08
-# ╟─c5497f8e-4d4e-11eb-3087-29485fb0bee1
