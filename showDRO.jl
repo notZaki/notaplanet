@@ -13,9 +13,6 @@ macro bind(def, element)
     end
 end
 
-# ╔═╡ df9502f0-4d4e-11eb-29b5-dd404666f1bb
-using Pkg
-
 # ╔═╡ 6d6b6472-4d5e-11eb-0e08-b3c26ad37f08
 using Perfusion
 
@@ -164,9 +161,6 @@ let
 	p
 end
 
-# ╔═╡ 6904aca2-4d5e-11eb-1563-7f47e014cbd7
-Pkg.activate(".")
-
 # ╔═╡ Cell order:
 # ╟─38393f20-4d54-11eb-0248-e3937edde1f7
 # ╟─514a525c-4d50-11eb-07c6-97593cc5aec5
@@ -187,7 +181,5 @@ Pkg.activate(".")
 # ╠═c08e627a-4d53-11eb-0dce-639de5501eb4
 # ╠═1572b524-4d52-11eb-22a7-09978ae54280
 # ╠═ba0a75ec-4d4e-11eb-383f-0bd33c2f5c5e
-# ╠═df9502f0-4d4e-11eb-29b5-dd404666f1bb
-# ╠═6904aca2-4d5e-11eb-1563-7f47e014cbd7
 # ╠═6d6b6472-4d5e-11eb-0e08-b3c26ad37f08
 # ╠═c5497f8e-4d4e-11eb-3087-29485fb0bee1
