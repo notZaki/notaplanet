@@ -1,4 +1,0 @@
-#!/bin/bash
-
-julia -e 'using Pkg; Pkg.activate("."); using PackageCompiler; PackageCompiler.create_sysimage([:Plots, :Perfusion, :MAT]; precompile_execution_file="showDRO.jl", sysimage_path="./out.so")'
-
