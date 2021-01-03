@@ -17,10 +17,7 @@ end
 using Perfusion
 
 # ╔═╡ c5497f8e-4d4e-11eb-3087-29485fb0bee1
-begin
-	using MAT, Plots, PlutoUI, Statistics
-	gr(size=(600,400), html_output_format=:png)
-end
+using MAT, Plots, PlutoUI, Statistics
 
 # ╔═╡ 38393f20-4d54-11eb-0248-e3937edde1f7
 md"""
@@ -59,7 +56,25 @@ md"""
 ### Residual Sum of Squares
 """
 
-# ╔═╡ 5fb9eb5c-4d64-11eb-2d4d-99d72a2140c5
+# ╔═╡ 2f2e95ca-4d76-11eb-2d2a-574df5f6aeb5
+md"""
+### Lowest residual map
+
+The map below shows which model has the lowest residual.
+The colorscale from dark blue to yellow represents 2CXM, CTUM, extended Tofts, and simple Tofts models, respectively.
+"""
+
+# ╔═╡ 5b88db86-4d73-11eb-23c0-6d397ef8d8ed
+md"""
+## Figure sizes 
+
+Sliders below control the width & height of all the figures above:
+
+$(@bind figwidth Slider(100:20:700; default = 600, show_value = true))
+$(@bind figheight Slider(100:20:1000; default = 400, show_value = true))
+"""
+
+# ╔═╡ 58719420-4d74-11eb-1203-d904b52db65e
 md"""
 # END
 
@@ -82,6 +97,14 @@ modelfunc = Dict(
 # ╔═╡ ba0a75ec-4d4e-11eb-383f-0bd33c2f5c5e
 mat = matread("dro.mat");
 
+# ╔═╡ 838f8914-4d74-11eb-07f7-c1c1745ef934
+let models = ("tofts", "extendedtofts", "uptake", "exchange")
+	gr(size=(figwidth,figheight), html_output_format=:png)
+	allrss = cat([mat["rss"][model] for model in models]...; dims = 3)
+	map = getindex.(getproperty.(argmin(allrss; dims = 3), :I), 3)[:,:,1]
+	heatmap(map; yflip = true, c=cgrad(:matter, 4, categorical = true))
+end
+
 # ╔═╡ 98c1115e-4d51-11eb-2880-65657a732856
 allmodels = collect(keys(mat["fits"]))
 
@@ -90,11 +113,12 @@ allmodels = collect(keys(mat["fits"]))
 
 # ╔═╡ e395e576-4d63-11eb-1ca4-556bafe55491
 let
+	gr(size=(figwidth,figheight), html_output_format=:png)
 	p = []
 	cmax = 0.0005
 	for model in allmodels
 		map = mat["rss"][model]
-		push!(p, heatmap(map; clim=(0, cmax), title = model))
+		push!(p, heatmap(map; yflip = true, clim=(0, cmax), title = model))
 	end
 	plot(p...)
 end
@@ -116,8 +140,8 @@ ct = mat["ct"];
 
 # ╔═╡ 8a07502c-4d53-11eb-0acc-7bba93ebb256
 md"""
-$(@bind y Slider(3:ny-3; default = midy))
-$(@bind x Slider(3:nx-3; default = midx))
+$(@bind y Slider(3:ny-3; default = midy, show_value = true))
+$(@bind x Slider(3:nx-3; default = midx, show_value = true))
 """
 
 # ╔═╡ 1572b524-4d52-11eb-22a7-09978ae54280
@@ -125,6 +149,7 @@ fits = mat["fits"];
 
 # ╔═╡ 9c775c6a-4d54-11eb-2f23-d3b183c95a4f
 let
+	gr(size=(figwidth,figheight), html_output_format=:png)
 	conc = ct[x,y,:]
 	p = scatter(t, conc; ylabel = "Time [min]", xlabel = "Concentration [mM]", label = nothing, palette = :seaborn_colorblind, figopts...)
 	
@@ -150,6 +175,7 @@ allparams = collect(keys(fits[first(models)]))
 
 # ╔═╡ 514a525c-4d50-11eb-07c6-97593cc5aec5
 let
+	gr(size=(figwidth,figheight), html_output_format=:png)
 	model = first(models)
 	map = copy(fits[model][param])
 	cmax = quantile(filter(!isnan, map), 0.9)
@@ -171,17 +197,20 @@ end
 # ╟─9c775c6a-4d54-11eb-2f23-d3b183c95a4f
 # ╟─55f56d58-4d64-11eb-3c16-f56d0e192f6c
 # ╟─e395e576-4d63-11eb-1ca4-556bafe55491
-# ╟─5fb9eb5c-4d64-11eb-2d4d-99d72a2140c5
+# ╟─2f2e95ca-4d76-11eb-2d2a-574df5f6aeb5
+# ╟─838f8914-4d74-11eb-07f7-c1c1745ef934
+# ╟─5b88db86-4d73-11eb-23c0-6d397ef8d8ed
+# ╟─58719420-4d74-11eb-1203-d904b52db65e
 # ╟─97f67b12-4d5e-11eb-332d-d9521cadce9d
 # ╟─bb48c55a-4d51-11eb-2e44-db95a10f4e7a
 # ╟─98c1115e-4d51-11eb-2880-65657a732856
 # ╟─583e98ec-4d5e-11eb-373f-adcf5b0f16be
-# ╠═a894973e-4d53-11eb-121d-194fe32116fe
-# ╠═caf170f4-4d53-11eb-1a6a-bb3fd836acdc
-# ╠═ae8f734c-4d54-11eb-2a2b-f33ec0accbe0
-# ╠═cbc0af94-4d5e-11eb-3e9d-61955bc84d32
-# ╠═c08e627a-4d53-11eb-0dce-639de5501eb4
-# ╠═1572b524-4d52-11eb-22a7-09978ae54280
-# ╠═ba0a75ec-4d4e-11eb-383f-0bd33c2f5c5e
-# ╠═6d6b6472-4d5e-11eb-0e08-b3c26ad37f08
-# ╠═c5497f8e-4d4e-11eb-3087-29485fb0bee1
+# ╟─a894973e-4d53-11eb-121d-194fe32116fe
+# ╟─caf170f4-4d53-11eb-1a6a-bb3fd836acdc
+# ╟─ae8f734c-4d54-11eb-2a2b-f33ec0accbe0
+# ╟─cbc0af94-4d5e-11eb-3e9d-61955bc84d32
+# ╟─c08e627a-4d53-11eb-0dce-639de5501eb4
+# ╟─1572b524-4d52-11eb-22a7-09978ae54280
+# ╟─ba0a75ec-4d4e-11eb-383f-0bd33c2f5c5e
+# ╟─6d6b6472-4d5e-11eb-0e08-b3c26ad37f08
+# ╟─c5497f8e-4d4e-11eb-3087-29485fb0bee1
