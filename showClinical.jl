@@ -153,6 +153,7 @@ end
 let models = ("tofts", "extendedtofts", "uptake", "exchange")
 	gr(size=(figwidth,figheight), html_output_format=:png)
 	allrss = cat([mat["rss"][model][50:80,40:80,z] for model in models]...; dims = 3)
+	allrss[@. isnan(allrss)] .= Inf
 	map = getindex.(getproperty.(argmin(allrss; dims = 3), :I), 3)[:,:,1]
 	heatmap(map; yflip = true, c=cgrad(:matter, 4, categorical = true))
 end
