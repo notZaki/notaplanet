@@ -35,7 +35,7 @@ This document contains four figures.
   + The chosen voxel is shown by the crosshairs in the parameter map
   + The sliders will move the crosshairs
 
-3. The residual sum of squares (static figure)
+3. Square root of residual sum of squares (static figure)
 
 4. Map showing which model has lowest residual sum of squares
 
@@ -57,7 +57,7 @@ Multiple models can be selected by holding ctrl while clicking.
 
 # ╔═╡ 55f56d58-4d64-11eb-3c16-f56d0e192f6c
 md"""
-### Residual Sum of Squares
+### Square root of residual sum of squares
 """
 
 # ╔═╡ 2f2e95ca-4d76-11eb-2d2a-574df5f6aeb5
@@ -119,10 +119,9 @@ allmodels = collect(keys(mat["fits"]))
 let
 	gr(size=(figwidth,figheight), html_output_format=:png)
 	p = []
-	cmax = 0.02
 	for model in allmodels
 		map = sqrt.(mat["rss"][model])
-		push!(p, heatmap(map; yflip = true, clim=(0.01, cmax), title = model))
+		push!(p, heatmap(map; yflip = true, clim=(0.007, 0.02), title = model))
 	end
 	plot(p...)
 end
